@@ -1,7 +1,6 @@
-import 'package:eng_dina_eissa/feature/auth/presentation/ui/login/login_screen.dart';
+import 'package:mytask/feature/auth/presentation/ui/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 class MyTask  extends StatelessWidget {
   const MyTask ({super.key});
 
