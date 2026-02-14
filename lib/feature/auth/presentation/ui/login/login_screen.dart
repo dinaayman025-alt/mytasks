@@ -15,6 +15,63 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isPasswordHidden = true;
 
+  // بيانات تجريبية صحيحة
+  final String correctEmail = "dina@gmail.com";
+  final String correctPassword = "123456";
+
+  void login() {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    // تحقق من الفراغ
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter email and password'),
+        ),
+      );
+      return;
+    }
+
+    // تحقق من صحة الإيميل
+    if (!email.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid email'),
+        ),
+      );
+      return;
+    }
+
+    // تحقق من طول الباسورد
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 6 characters'),
+        ),
+      );
+      return;
+    }
+
+    // تحقق من صحة البيانات
+    if (email != correctEmail || password != correctPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email or Password is incorrect'),
+        ),
+      );
+      return;
+    }
+
+    // لو البيانات صح
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
+            // Email
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -42,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             const SizedBox(height: 15),
 
+            // Password
             TextField(
               controller: passwordController,
               obscureText: isPasswordHidden,
@@ -67,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             const SizedBox(height: 25),
 
+            // Login Button
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -74,54 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF1565C0),
                 ),
-                onPressed: () {
-                  final email = emailController.text.trim();
-                  final password = passwordController.text.trim();
-
-                  if (email.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please enter your email'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (!email.contains('@')) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please enter a valid email'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (password.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please enter your password'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (password.length < 6) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content:
-                        Text('Password must be at least 6 characters'),
-                      ),
-                    );
-                    return;
-                  }
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const HomeScreen(),
-                    ),
-                  );
-                },
-
+                onPressed: login,
                 child: const Text(
                   'Login',
                   style: TextStyle(color: Colors.white, fontSize: 18),
